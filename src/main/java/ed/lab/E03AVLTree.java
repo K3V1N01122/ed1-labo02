@@ -1,4 +1,3 @@
-//Kevin Palencia
 package ed.lab;
 
 import java.util.Comparator;
@@ -50,12 +49,20 @@ public class E03AVLTree<T> {
         } else if (cmp > 0) {
             node.right = delete(node.right, value);
         } else {
-            size--;
-            if (node.left == null) return node.right;
-            if (node.right == null) return node.left;
-            AVLNode<T> minLargerNode = getMin(node.right);
-            node.value = minLargerNode.value;
-            node.right = delete(node.right, node.value);
+            if (node.left == null && node.right == null) {
+                size--;
+                return null;
+            } else if (node.left == null) {
+                size--;
+                return node.right;
+            } else if (node.right == null) {
+                size--;
+                return node.left;
+            } else {
+                AVLNode<T> minLargerNode = getMin(node.right);
+                node.value = minLargerNode.value;
+                node.right = delete(node.right, node.value);
+            }
         }
         return balance(node);
     }
